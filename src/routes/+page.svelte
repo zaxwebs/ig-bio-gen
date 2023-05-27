@@ -1,5 +1,6 @@
 <script>
 	import Step from '$lib/components/Step.svelte'
+	import StarOnGitHub from '$lib/components/StarOnGitHub.svelte'
 
 	let bio
 	let tones = [
@@ -14,13 +15,12 @@
 		},
 	]
 	let tone = tones[0]
-
-	$: console.log(tone)
 </script>
 
 <main
 	class="flex flex-1 w-full flex-col items-center justify-center px-4 mt-12 sm:mt-20 text-slate-900"
 >
+	<StarOnGitHub />
 	<h1 class="sm:text-6xl text-4xl max-w-[708px] font-bold text-slate-900 text-center">
 		Generate your next Instagram bio using AI
 	</h1>
