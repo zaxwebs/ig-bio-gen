@@ -2,11 +2,26 @@
 	import Step from '$lib/components/Step.svelte'
 
 	let bio
+	let tones = [
+		{
+			text: 'Professional',
+		},
+		{
+			text: 'Casual',
+		},
+		{
+			text: 'Funny',
+		},
+	]
+	let tone = tones[0]
+
+	$: console.log(tone)
 </script>
 
 <main
 	class="flex flex-1 w-full flex-col items-center justify-center px-4 mt-12 sm:mt-20 text-slate-900"
 >
+	<pre>{bio}</pre>
 	<h1 class="sm:text-6xl text-4xl max-w-[708px] font-bold text-slate-900 text-center">
 		Generate your next Instagram bio using AI
 	</h1>
@@ -29,11 +44,12 @@
 			<label class="text-left font-medium" for=""><Step number="2" /> Select your vibe.</label
 			>
 			<select
+				bind:value={tone}
 				class="w-full rounded-md border border-gray-300 shadow-sm focus:border-black focus:ring-black px-3 py-2 mt-5"
 			>
-				<option value="1">Professional</option>
-				<option value="2">Casual</option>
-				<option value="3">Funny</option>
+				{#each tones as tone}
+					<option value={tone}>{tone.text}</option>
+				{/each}
 			</select>
 		</div>
 		<div class="mt-8 sm:mt-10">
