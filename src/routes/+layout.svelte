@@ -3,6 +3,11 @@
 </script>
 
 <div class="flex max-w-5xl mx-auto flex-col min-h-screen">
+	<header class="w-full border-b flex sm:flex-row flex-col p-4 py-6">
+		<div class="sm:text-2xl text-xl font-bold ml-2 tracking-tight">
+			Instagram Bio Generator
+		</div>
+	</header>
 	<div class="flex-1">
 		<slot />
 	</div>
