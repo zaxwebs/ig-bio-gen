@@ -1,5 +1,7 @@
 <script>
 	import Step from '$lib/components/Step.svelte'
+
+	let bio
 </script>
 
 <main
@@ -20,6 +22,7 @@
 				class="w-full rounded-md border border-gray-300 shadow-sm focus:border-black focus:ring-black px-4 py-2 placeholder-slate-500 mt-5"
 				placeholder="e.g. Product Designer & Developer. Posting about UI design, web development, AI, and SvelteKit."
 				spellcheck="false"
+				bind:value={bio}
 			/>
 		</div>
 		<div class="mt-5">
