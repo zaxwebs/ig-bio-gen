@@ -1,6 +1,7 @@
 <script>
 	import Step from '$lib/components/Step.svelte'
 	import StarOnGitHub from '$lib/components/StarOnGitHub.svelte'
+	import { extractList } from '$lib/utils/helpers.js'
 
 	let bio
 	let vibes = [
@@ -17,9 +18,16 @@
 	let vibe = vibes[0]
 
 	let bios = []
+	let biosString = ''
+	let loading = false
+	let endStream = true
+
+	$: if (biosString) {
+		bios = extractList(biosString)
+	}
 
 	const handleGenerate = async () => {
-		const data = {
+		const payload = {
 			bio,
 			vibe: vibe.text,
 		}
@@ -30,10 +38,36 @@
 				headers: {
 					'Content-Type': 'application/json',
 				},
-				body: JSON.stringify(data),
+				body: JSON.stringify(payload),
 			})
-			const json = await response.json()
-			bios = [...json.bios]
+
+			if (response.ok) {
+				try {
+					const data = response.body
+					if (!data) {
+						return
+					}
+
+					const reader = data.getReader()
+					const decoder = new TextDecoder()
+
+					while (true) {
+						const { value, done } = await reader.read()
+						const chunkValue = decoder.decode(value)
+
+						biosString += chunkValue
+
+						if (done) {
+							endStream = true
+							break
+						}
+					}
+				} catch (e) {
+					throw new Error('Looks like OpenAI timed out :(')
+				}
+			} else {
+				throw new Error(response.text())
+			}
 		} catch (error) {
 			console.log(error)
 		}
