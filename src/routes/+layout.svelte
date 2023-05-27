@@ -12,7 +12,7 @@
 		<slot />
 	</div>
 	<footer
-		class="w-full border-t mt-5 flex sm:flex-row flex-col justify-between items-center p-4 py-8"
+		class="w-full border-t mt-5 flex sm:flex-row flex-col justify-between items-center p-4 py-6"
 	>
 		<div>Built by @zaxwebs</div>
 		<div>
