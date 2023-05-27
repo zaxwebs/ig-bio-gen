@@ -14,7 +14,7 @@ async function OpenAIStream(payload) {
 
 	let counter = 0;
 
-	const res = await fetch('https://api.openai.com/v1/completions', {
+	const res = await fetch('https://api.openai.com/v1/chat/completions', {
 		headers: {
 			'Content-Type': 'application/json',
 			Authorization: `Bearer ${OPENAI_API_KEY}`
@@ -26,17 +26,16 @@ async function OpenAIStream(payload) {
 	const stream = new ReadableStream({
 		async start(controller) {
 			function onParse(event) {
-				if (event.type === 'event') {
+				if (event.type === "event") {
 					const data = event.data;
 					// https://beta.openai.com/docs/api-reference/completions/create#completions/create-stream
-					if (data === '[DONE]') {
+					if (data === "[DONE]") {
 						controller.close();
 						return;
 					}
 					try {
 						const json = JSON.parse(data);
-						const text = json.choices[0].text;
-
+						const text = json.choices[0].delta?.content || "";
 						if (counter < 2 && (text.match(/\n/) || []).length) {
 							// this is a prefix character (i.e., "\n\n"), do nothing
 							return;
@@ -45,6 +44,7 @@ async function OpenAIStream(payload) {
 						controller.enqueue(queue);
 						counter++;
 					} catch (e) {
+						// maybe parse error
 						controller.error(e);
 					}
 				}
@@ -83,8 +83,8 @@ export const POST = async ({ request }) => {
 	// return new Response(JSON.stringify({ bios }));
 
 	const payload = {
-		model: 'text-davinci-003',
-		prompt: generatePrompt(bio, vibe),
+		model: 'gpt-3.5-turbo',
+		messages: [{ role: "user", content: generatePrompt(bio, vibe) }],
 		temperature: 0.7,
 		max_tokens: 2048,
 		top_p: 1.0,
