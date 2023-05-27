@@ -2,6 +2,8 @@
 	import Step from '$lib/components/Step.svelte'
 	import StarOnGitHub from '$lib/components/StarOnGitHub.svelte'
 	import { extractList } from '$lib/utils/helpers.js'
+	import { scrollBottom } from 'svelte-scrolling'
+	import { fade } from 'svelte/transition'
 
 	let bio
 	let vibes = [
@@ -23,7 +25,11 @@
 	let endStream = true
 
 	$: if (biosString) {
+		const biosCount = bios.length
 		bios = extractList(biosString)
+		if (biosCount < bios.length) {
+			scrollBottom({ duration: 1200 })
+		}
 	}
 
 	const handleGenerate = async () => {
@@ -91,7 +97,7 @@
 			<textarea
 				rows="4"
 				class="w-full rounded-md border border-gray-300 shadow-sm focus:border-black focus:ring-black px-4 py-2 placeholder-slate-500 mt-5"
-				placeholder="e.g. Product Designer & Developer. Posting about UI design, web development, AI, and SvelteKit."
+				placeholder="e.g. Product designer at @instagram"
 				spellcheck="false"
 				bind:value={bio}
 			/>
@@ -120,8 +126,9 @@
 				<h2 class="sm:text-4xl text-3xl font-bold text-slate-900 mx-auto text-center">
 					Your generated bios
 				</h2>
-				{#each bios as bio}
+				{#each bios as bio, index (index)}
 					<div
+						in:fade
 						class="bg-white rounded-xl shadow-md p-4 hover:bg-gray-100 transition cursor-copy border mt-8"
 					>
 						{bio}

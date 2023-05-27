@@ -21,6 +21,7 @@
   "type": "module",
   "dependencies": {
     "eventsource-parser": "^1.0.0",
-    "openai": "^3.2.1"
+    "openai": "^3.2.1",
+    "svelte-scrolling": "^1.2.2"
   }
 }
