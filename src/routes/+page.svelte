@@ -1,28 +1,28 @@
 <script>
-	import Step from '$lib/components/Step.svelte'
-	import StarOnGitHub from '$lib/components/StarOnGitHub.svelte'
-	import { extractList } from '$lib/utils/helpers.js'
-	import { scrollBottom } from 'svelte-scrolling'
-	import { fade } from 'svelte/transition'
+	import Step from "$lib/components/Step.svelte"
+	import StarOnGitHub from "$lib/components/StarOnGitHub.svelte"
+	import LoadingDots from "$lib/components/LoadingDots.svelte"
+	import { extractList } from "$lib/utils/helpers.js"
+	import { scrollBottom } from "svelte-scrolling"
+	import { fade } from "svelte/transition"
 
 	let bio
 	let vibes = [
 		{
-			text: 'Professional',
+			text: "Professional",
 		},
 		{
-			text: 'Casual',
+			text: "Casual",
 		},
 		{
-			text: 'Funny',
+			text: "Funny",
 		},
 	]
 	let vibe = vibes[0]
 
 	let bios = []
-	let biosString = ''
+	let biosString = ""
 	let loading = false
-	let endStream = true
 
 	$: if (biosString) {
 		const biosCount = bios.length
@@ -39,10 +39,12 @@
 		}
 
 		try {
-			const response = await fetch('/api', {
-				method: 'POST',
+			loading = true
+
+			const response = await fetch("/api", {
+				method: "POST",
 				headers: {
-					'Content-Type': 'application/json',
+					"Content-Type": "application/json",
 				},
 				body: JSON.stringify(payload),
 			})
@@ -64,12 +66,13 @@
 						biosString += chunkValue
 
 						if (done) {
-							endStream = true
+							biosString = ""
+							loading = false
 							break
 						}
 					}
 				} catch (e) {
-					throw new Error('Looks like OpenAI timed out :(')
+					throw new Error("Looks like OpenAI timed out :(")
 				}
 			} else {
 				throw new Error(response.text())
@@ -84,14 +87,17 @@
 	class="flex flex-1 w-full flex-col items-center justify-center px-4 my-10 sm:my-20 text-slate-900"
 >
 	<StarOnGitHub />
-	<h1 class="sm:text-6xl text-4xl max-w-[708px] font-bold text-slate-900 text-center">
+	<h1
+		class="sm:text-6xl text-4xl max-w-[708px] font-bold text-slate-900 text-center"
+	>
 		Generate your next Instagram bio using AI
 	</h1>
 	<div class="mt-10 max-w-xl w-full">
 		<div>
 			<label class="text-left font-medium" for="">
 				<Step number="1" />Copy your current bio
-				<span class="text-slate-500">(or write a few sentences about yourself).</span
+				<span class="text-slate-500"
+					>(or write a few sentences about yourself).</span
 				></label
 			>
 			<textarea
@@ -103,7 +109,8 @@
 			/>
 		</div>
 		<div class="mt-5">
-			<label class="text-left font-medium" for=""><Step number="2" /> Select your vibe.</label
+			<label class="text-left font-medium" for=""
+				><Step number="2" /> Select your vibe.</label
 			>
 			<select
 				bind:value={vibe}
@@ -117,13 +124,23 @@
 		<div class="mt-8 sm:mt-10">
 			<button
 				on:click={handleGenerate}
+				disabled={loading}
 				class="bg-black rounded-xl text-white font-medium px-4 py-2 hover:bg-black/80 w-full"
-				>Generate your bio →</button
 			>
+				<div class="flex justify-center items-center h-6">
+					{#if loading}
+						<LoadingDots />
+					{:else}
+						Generate your bio →
+					{/if}
+				</div>
+			</button>
 		</div>
 		{#if bios.length}
 			<div class="mt-10">
-				<h2 class="sm:text-4xl text-3xl font-bold text-slate-900 mx-auto text-center">
+				<h2
+					class="sm:text-4xl text-3xl font-bold text-slate-900 mx-auto text-center"
+				>
 					Your generated bios
 				</h2>
 				{#each bios as bio, index (index)}

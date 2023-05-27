@@ -1,4 +1,4 @@
-const BIO_COUNT = 5;
+const BIO_COUNT = 2
 
 // TODO: optimize & improve this
 
@@ -10,7 +10,7 @@ const generatePrompt = (bio, vibe) => {
 	use just a little than 150 characters - including spaces
 	use descriptive words
 	should lead to more follows
-	`;
+	`
 }
 
 export default generatePrompt

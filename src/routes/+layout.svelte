@@ -1,5 +1,31 @@
 <script>
-  import "../app.postcss";
+	import "../app.postcss"
 </script>
 
-<slot />
+<div class="flex max-w-5xl mx-auto flex-col min-h-screen">
+	<div class="flex-1">
+		<slot />
+	</div>
+	<footer
+		class="w-full border-t mt-5 flex sm:flex-row flex-col justify-between items-center p-4 py-8"
+	>
+		<div>Built by @zaxwebs</div>
+		<div>
+			Powered by <a
+				href="https://kit.svelte.dev/"
+				target="_blank"
+				rel="noreferrer"
+				class="font-bold hover:underline transition underline-offset-2"
+				>SvelteKit</a
+			>
+			+
+			<a
+				href="https://openai.com/"
+				target="_blank"
+				rel="noreferrer"
+				class="font-bold hover:underline transition underline-offset-2"
+				>OpenAI</a
+			>
+		</div>
+	</footer>
+</div>
