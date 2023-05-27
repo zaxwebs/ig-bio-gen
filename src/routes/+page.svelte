@@ -1,4 +1,5 @@
 <script>
+	import Step from '$lib/components/Step.svelte'
 </script>
 
 <main
@@ -7,11 +8,11 @@
 	<h1 class="sm:text-6xl text-4xl max-w-[708px] font-bold text-slate-900 text-center">
 		Generate your next Instagram bio using AI
 	</h1>
-	<div class="mt-10">
+	<div class="mt-10 max-w-xl w-full">
 		<div>
 			<label class="text-left font-medium" for="">
-				Copy your current bio <span class="text-slate-500"
-					>(or write a few sentences about yourself).</span
+				<Step number="1" />Copy your current bio
+				<span class="text-slate-500">(or write a few sentences about yourself).</span
 				></label
 			>
 			<textarea
@@ -22,13 +23,14 @@
 			/>
 		</div>
 		<div class="mt-5">
-			<label class="text-left font-medium" for="">Select your vibe.</label>
+			<label class="text-left font-medium" for=""><Step number="2" /> Select your vibe.</label
+			>
 			<select
 				class="w-full rounded-md border border-gray-300 shadow-sm focus:border-black focus:ring-black px-3 py-2 mt-5"
 			>
-				<option value="1">Option 1</option>
-				<option value="2">Option 2</option>
-				<option value="3">Option 3</option>
+				<option value="1">Professional</option>
+				<option value="2">Casual</option>
+				<option value="3">Funny</option>
 			</select>
 		</div>
 		<div class="mt-8 sm:mt-10">
