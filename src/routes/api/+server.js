@@ -9,8 +9,12 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration)
 
 export const POST = async ({ request }) => {
-	const { bio, vibe } =
+	let { bio, vibe } =
 		await request.json()
+
+	console.log(bio)
+
+	bio = bio ? bio : 'Product designer at @instagram'
 
 	const response = await openai.createChatCompletion({
 		model: "gpt-3.5-turbo",
