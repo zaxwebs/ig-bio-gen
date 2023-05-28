@@ -14,7 +14,15 @@
 	<footer
 		class="w-full border-t mt-5 flex sm:flex-row flex-col justify-between items-center p-4 py-6"
 	>
-		<div>Built by @zaxwebs</div>
+		<div>
+			Built by <a
+				href="https://instagram.com/zaxwebs"
+				target="_blank"
+				rel="noreferrer"
+				class="font-bold hover:underline transition underline-offset-2"
+				>@zaxwebs</a
+			>
+		</div>
 		<div>
 			Powered by <a
 				href="https://kit.svelte.dev/"
